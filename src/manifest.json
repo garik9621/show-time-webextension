@@ -1,0 +1,14 @@
+{
+  "name": "Show info",
+  "description": "Browser show info extensions. You can watch time, weather etc",
+  "version": "1.0.0",
+  "manifest_version": 3,
+  "action": {
+    "default_title": "Show info",
+    "default_icon": "./icons/icon.png",
+    "default_popup": "./popup/popup.html"
+  },
+  "icons": {
+    "128": "./icons/icon.png"
+  }
+}
