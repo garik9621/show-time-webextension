@@ -88,12 +88,37 @@ const displayTime = () => {
     setInterval(fillTimeEl, 60000)
 }
 
+const getCurrentNavigation = async () => {
+    try {
+        const positionInfo = await new Promise((resolve, reject) => {
+            navigator.geolocation.getCurrentPosition(resolve, reject);
+        });
+
+        const { coords } = positionInfo;
+
+        const response = await fetch('https://api.bigdatacloud.net/data/reverse-geocode-client?' + new URLSearchParams({
+            latitude: coords.latitude,
+            longitude: coords.longitude,
+            localityLanguage: 'en',
+        }));
+
+        const { city } = await response.json();
+
+        return city || '';
+    } catch(e) {
+        console.error(e)
+    }
+
+    return '';
+}
+
 const getLocationKey = async () => {
     try {
+        const cityName = await getCurrentNavigation();
+
         const response = await fetch('https://dataservice.accuweather.com/locations/v1/cities/search?' + new URLSearchParams({
             apikey: 'yXonieY7c61tHdWj8YWpXhEezUnSA0SW',
-            // TODO: доработать получение города из геолокации пользователя
-            q: 'Volgograd',
+            q: cityName || 'Volgograd',
         }));
 
         const responseToJSON = await response.json();
@@ -153,7 +178,6 @@ const getWeatherInfoHTML = async () => {
 
 const displayWeatherInfo = async () => {
     const weatherBlock = document.querySelector('#weatherInfo');
-
 
     weatherBlock?.append(await getWeatherInfoHTML());
 }

@@ -67,3 +67,13 @@ body {
     font-size: 18px;
     margin-top: 5px;
 }
+
+.city {
+    margin-bottom: 16px;
+}
+
+.city-label {
+    color: #fff;
+    font-size: 16px;
+    line-height: 18px;
+}
